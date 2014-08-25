@@ -1,0 +1,26 @@
+{% extends 'produtos/base.html' %}
+{% block body %}
+    {% set produto=produto or None %}
+    {% set errors=errors or None %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <br/>
+
+                <div class="well">
+                    <h1 class="text-center">{% trans %}Produto Form{% endtrans %}</h1>
+
+                    <form action="{{ save_path }}" method="post" role="form">
+                        {{ csrf_input() }}
+                        {{ form_input(_('Price'),'price',produto.price,errors.price) }}
+                        {{ form_input(_('Quantidade'),'quantidade',produto.quantidade,errors.quantidade) }}
+                        {{ form_input(_('Descricao'),'descricao',produto.descricao,errors.descricao) }}
+                        {{ form_input(_('Nome'),'nome',produto.nome,errors.nome) }}
+                        <button type="submit" class="btn btn-success">{% trans %}Save{% endtrans %}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

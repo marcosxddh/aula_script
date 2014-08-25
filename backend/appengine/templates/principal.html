@@ -3,5 +3,13 @@
 {% block body %}
 
     <h1>{{ name }} - {{ lastname }}</h1>
+    {{ csrf_input() }}
+    {% if name=='Renzo' %}
+        {{ form_input('Nome', 'nome', 'Renzo', 'Nome eh obrigatorio') }}
+    {% endif %}
+
+    {% for p in pessoas %}
+        <li>{{ p.nome }} - {{ p.sobrenome }}</li>
+    {% endfor %}
 
 {% endblock %}

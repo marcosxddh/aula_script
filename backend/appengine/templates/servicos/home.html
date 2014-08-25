@@ -1,0 +1,34 @@
+{% extends 'servicos/base.html' %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>{% trans %}Serviços {% endtrans %}  </h1>
+                {% if _logged_user and ('ADMIN' in _logged_user.groups) %}
+                <a href="{{ admin_path }}" class="btn btn-success">{% trans %}Admin{% endtrans %}</a>
+                {% endif %}
+                <hr/>
+                <h2>{% trans %}Cadastrados{% endtrans %}</h2>
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>{% trans %}Nome{% endtrans %}</th>
+                        <th>{% trans %}Descrição{% endtrans %}</th>
+                        <th>{% trans %}Preço{% endtrans %}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for servico in servicos %}
+                        <tr>
+                            <td>{{ servico.nome }}</td>
+                            <td>{{ servico.descricao }}</td>
+                            <td>{{ servico.preco }}</td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

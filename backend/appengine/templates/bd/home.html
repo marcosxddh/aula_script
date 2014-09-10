@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+{% block css %}
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap-social.css"/>
+    <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css"/>
+{% endblock %}
+{% block body %}
+   <form action="{{ salva_path }}" metodo="post">
+       {{ csfr_input() }}
+       {{ form_input('Nome', 'name', escravo.name, erros.name }}
+       {{ form_input('Idade', 'age', escravo.age, erros.age }}
+       {{ form_input('Nascimento', 'birth', escravo.bith, erros.birth }}
+       <button type="submit">Enviar</button>
+   </form>
+{% endblock %}

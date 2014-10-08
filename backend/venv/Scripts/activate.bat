@@ -1,5 +1,5 @@
 @echo off
-set "VIRTUAL_ENV=C:\aula_script\aula_script\backend\venv"
+set "VIRTUAL_ENV=C:\aula_script\backend\venv"
 
 if defined _OLD_VIRTUAL_PROMPT (
     set "PROMPT=%_OLD_VIRTUAL_PROMPT%"

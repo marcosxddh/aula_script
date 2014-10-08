@@ -31,3 +31,13 @@ indexes:
   properties:
   - name: class
   - name: email
+
+- kind: Node
+  properties:
+  - name: class
+  - name: nome
+
+- kind: Node
+  properties:
+  - name: class
+  - name: preco

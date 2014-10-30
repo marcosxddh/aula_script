@@ -1,45 +1,132 @@
 {% extends 'base/base.html' %}
 {% block body %}
     {% set produto = produto or None %}
+    {% set erros = erros or None %}
+    <div class="page-header">
+        <div class="col-md-1"></div>
+        <h1>Tabela de Produtos
+            <button id="add-produto" class="btn btn-primary pull-right">
+                <span class="glyphicon glyphicon-plus"></span>Adicionar Produto
+            </button>
+        </h1>
+    </div>
     <div class="container">
-        <div class="row">
-            <div class="col-md-1">
-            </div>
-
-            <div class="col-md-10">
-                <h1 class="text-center">Tabela de Produtos</h1>
+        <div class="col-md-12">
+            <div class="col-md-2"></div>
+            <div id="div-formulario" class="col-md-8" hidden="true">
                 <div class="well">
-		            <table class="table">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>ID</th>
-                                <th>Nome</th>
-                                <th>Descrição</th>
-                                <th>Preço</th>
-                                <th>Modelo</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for p in produto %}
-                            <tr>
-                                <td><a class="btn btn-success" href="produto/editar_form/{{ p.key.id() }}"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                                <td>{{ p.key.id() }}</td>
-                                <td>{{ p.nome }}</td>
-                                <td>{{ p.descricao }}</td>
-                                <td>{{ p.preco }}</td>
-                                <td>{{ p.modelo }}</td>
-                                <td><a class="btn btn-danger" href="#"><span class="glyphicon glyphicon-trash"></span></a></td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                    <form id="formulario" action="{{ salvar_path }}" method="post" role="form">
+                        {{ csrf_input() }}
+                        <input name="usuario" value="{{ _logged_user.key }}" type="hidden">
+                        <div class="form-group">
+                            <span>Nome</span>
+                            <input class="form-control" type="text" id="nome">
+                        </div>
+
+                        <div class="form-group">
+                            <span>Descrição</span>
+                            <input class="form-control" type="text" id="descricao">
+                        </div>
+
+                        <div class="form-group">
+                            <span>Preço</span>
+                            <input class="form-control" type="text" id="preco">
+                        </div>
+
+                        <div class="form-group">
+                            <span>Modelo</span>
+                            <input class="form-control" type="text" id="modelo">
+                        </div>
+
+                        <button id="btn-salvar" type="button" class="btn btn-success">Salvar</button>
+                    </form>
                 </div>
             </div>
-
-            <div class="col-md-1">
+            <div class="col-md-2"></div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-1"></div>
+            <div class=" col-md-10">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                            <th>Preço</th>
+                            <th>Modelo</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for p in produto %}
+                        <tr>
+                            <td>{{ p.key.id() }}</td>
+                            <td>{{ p.nome }}</td>
+                            <td>{{ p.descricao }}</td>
+                            <td>{{ p.preco }}</td>
+                            <td>{{ p.modelo }}</td>
+                            <td><a class="btn btn-success" href="produto/editar_form/{{ p.key.id() }}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                            <td><a class="btn btn-danger" href="#"><span class="glyphicon glyphicon-trash"></span></a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
+            <div class="col-md-1"></div>
         </div>
     </div>
+{% endblock %}
+
+{% block js %}
+    <script src="../../static/js/jquery.min.js"></script>
+    <script type="application/javascript">
+        $(document).ready(function (){
+
+            $('#add-produto').click(function (){
+                $('#div-formulario').slideToggle();
+            });
+
+            $('#btn-salvar').click(function (){
+                var usuario = $('#usuario').val();
+                var nome = $('#nome').val();
+                var descricao = $('#descricao').val();
+                var preco = $('#preco').val();
+                var modelo = $('#modelo').val();
+
+                $.ajax({
+                    url: 'produto/salvar',
+                    data: {
+                        'nome': nome,
+                        'descricao': descricao,
+                        'preco': preco,
+                        'modelo': modelo
+                    },
+                    type: 'POST',
+                    success: function(retorno){
+                        alert(retorno);
+                    }
+                });
+
+                var promessa = $.post('/produto/salvar', filme);
+                promessa.success(function (filme_do_servidor) {
+                    adicionarLinha(filme_do_servidor);
+                });
+
+
+                promessa.error(function (erros) {
+                    if (erros.responseJSON != null && erros.responseJSON.titulo != null) {
+                        $tituloDiv.addClass('has-error');
+                        $helpTituloSpan.text(erros.responseJSON.titulo);
+                    }
+                });
+
+                promessa.always(function () {
+                    $ajaxGif.slideUp();
+                    $salvarBtn.slideDown();
+                })
+            });
+        });
+    </script>
 {% endblock %}

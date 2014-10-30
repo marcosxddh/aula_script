@@ -2,11 +2,9 @@
 {% block body %}
     {% set produto = produto or None %}
     {% set erros = erros or None %}
+
     <div class="container">
         <div class="row">
-            <div class="col-md-3">
-            </div>
-
             <div class="col-md-6">
                 <div class="well">
                     <h1 class="text-center">Formulário de Produtos</h1>
@@ -16,13 +14,12 @@
                         {{ form_input('Descrição', 'descricao', produto.descricao, erros.descricao) }}
                         {{ form_input('Preço', 'preco', produto.preco, erros.preco) }}
                         {{ form_input('Modelo', 'modelo', produto.modelo, erros.modelo) }}
-                        <button type="submit" class="btn btn-success">Salvar</button>
+                        <button id="btn-salvar" type="button" class="btn btn-success">Salvar</button>
                     </form>
                 </div>
             </div>
-
-            <div class="col-md-3">
-            </div>
         </div>
     </div>
+
 {% endblock %}
+
